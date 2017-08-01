@@ -25,5 +25,6 @@ TO_DO
 Please, let me know if I've made some mistake somewhere.
 
 ### Stuff used & read to make this:
+ * [json-to-go](https://mholt.github.io/json-to-go/) JSON to Go Struct Utility
  * [Anaconda](http://github.com/ChimeraCoder/anaconda) A Go client library for the Twitter 1.1 API
  * [Twitter rate limits] (https://dev.twitter.com/rest/public/rate-limits) read this before use twitter API
