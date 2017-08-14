@@ -16,6 +16,8 @@ func main() {
 		fmt.Printf("  crycurr <convert_to>\n\n")
 		fmt.Printf("  ip [<address>]\n\n")
 		fmt.Printf("  space\n\n")
+		fmt.Printf("  space\n\n")
+		fmt.Printf("  tor\n\n")
 		flag.PrintDefaults()
 	}
 
@@ -35,6 +37,8 @@ func main() {
 		utils.IpInfo(flag.Args())
 	case "space":
 		utils.Space()
+	case "tor":
+		utils.Tor()
 	default:
 		panic("unrecognized command")
 	}

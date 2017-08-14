@@ -2,6 +2,7 @@ package utils
 
 import (
   "fmt"
+  "log"
 )
 
 type S_open_generic struct {

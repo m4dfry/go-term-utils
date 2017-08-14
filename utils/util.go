@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"log"
+  "golang.org/x/net/proxy"
 	"net/http"
 	"net/url"
 )
@@ -11,11 +12,40 @@ func SafeParam(s string) string {
 	return url.QueryEscape(s)
 }
 
-func APICall(url string, data interface{}) {
+func APICall(apiAddress string, data interface{}) {
+  GenericAPICall(apiAddress, data, nil)
+}
 
-	log.Println("urlxs:", url)
+func TorAPICall(apiAddress string, data interface{}) {
+// Create a transport that uses Tor Browser's SocksPort.  If
+	// talking to a system tor, this may be an AF_UNIX socket, or
+	// 127.0.0.1:9050 instead.
+	tbProxyURL, err := url.Parse("socks5://127.0.0.1:9050")
+	if err != nil {
+		log.Fatal("Failed to parse proxy URL: %v\n", err)
+	}
+
+	// Get a proxy Dialer that will create the connection on our
+	// behalf via the SOCKS5 proxy.  Specify the authentication
+	// and re-create the dialer/transport/client if tor's
+	// IsolateSOCKSAuth is needed.
+	tbDialer, err := proxy.FromURL(tbProxyURL, proxy.Direct)
+	if err != nil {
+		log.Fatal("Failed to obtain proxy dialer: %v\n", err)
+	}
+
+	// Make a http.Transport that uses the proxy dialer, and a
+	// http.Client that uses the transport.
+	tbTransport := &http.Transport{Dial: tbDialer.Dial}
+
+	GenericAPICall(apiAddress, data, tbTransport)
+}
+
+func GenericAPICall(address string, data interface{}, tbTransport *http.Transport) {
+
+	log.Println("urlxs:", address)
 	// Build the request
-	req, err := http.NewRequest("GET", url, nil)
+	req, err := http.NewRequest("GET", address, nil)
 	if err != nil {
 		log.Fatal("NewRequest: ", err)
 		return
@@ -25,7 +55,10 @@ func APICall(url string, data interface{}) {
 	// redirect policy, and other settings,
 	// create a Client
 	// A Client is an HTTP client
-	client := &http.Client{}
+  client := &http.Client{}
+  if(tbTransport != nil) {
+    client = &http.Client{Transport: tbTransport}
+  }
 
 	// Send the request via a client
 	// Do sends an HTTP request and
