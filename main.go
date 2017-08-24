@@ -6,18 +6,21 @@ import (
 	"github.com/m4dfry/go-term-utils/utils"
 )
 
+func usage() {
+	fmt.Printf("Usage: go-term-utils [options] command <params>\n")
+	fmt.Printf("Commands & params: \n")
+	fmt.Printf("  curr    <convert_from> <convert_to> [<value>]\n")
+	fmt.Printf("  crycurr <convert_to>\n")
+	fmt.Printf("  ip      [<address>]\n")
+	fmt.Printf("  space\n")
+	fmt.Printf("  tor\n")
+}
+
 func main() {
 	var config = flag.String("c", "", "Custom configuration file path")
 
 	flag.Usage = func() {
-		fmt.Printf("Usage: futil [options] command <params>\n\n")
-		fmt.Printf("Commands & params: \n\n")
-		fmt.Printf("  curr <convert_from> <convert_to> [<value>]\n\n")
-		fmt.Printf("  crycurr <convert_to>\n\n")
-		fmt.Printf("  ip [<address>]\n\n")
-		fmt.Printf("  space\n\n")
-		fmt.Printf("  space\n\n")
-		fmt.Printf("  tor\n\n")
+		usage()
 		flag.PrintDefaults()
 	}
 
@@ -40,7 +43,8 @@ func main() {
 	case "tor":
 		utils.Tor()
 	default:
-		panic("unrecognized command")
+		fmt.Println("unrecognized command")
+		usage()
+		return
 	}
 }
-

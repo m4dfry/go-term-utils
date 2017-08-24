@@ -1,10 +1,11 @@
 package utils
 
 import (
-  "fmt"
+	"fmt"
 )
 
-type S_ip_api_com struct {
+// SIPAPICom struct
+type SIPAPICom struct {
 	As          string  `json:"as"`
 	City        string  `json:"city"`
 	Country     string  `json:"country"`
@@ -21,13 +22,14 @@ type S_ip_api_com struct {
 	Zip         string  `json:"zip"`
 }
 
-func IpInfo(args []string) {
-	argIp := ""
+// IPInfo function
+func IPInfo(args []string) {
+	argIP := ""
 	if len(args) > 1 {
-		argIp = args[1]
+		argIP = args[1]
 	}
 
-	var info S_ip_api_com
+	var info SIPAPICom
 	APICall("http://ip-api.com/json/"+argIp, &info)
 
 	fmt.Println("IP       :", info.Query)

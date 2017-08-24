@@ -1,23 +1,25 @@
 package utils
 
 import (
-  "fmt"
-  "strconv"
-  "log"
+	"fmt"
+	"log"
+	"strconv"
 )
 
-type S_fixer_io struct {
+// SFixerIo struct
+type SFixerIo struct {
 	Base  string             `json:"base"`
 	Date  string             `json:"date"`
 	Rates map[string]float64 `json:"rates"`
 }
 
+// Currency main function
 func Currency(args []string) {
 	if len(args) < 3 {
 		fmt.Printf("Error: not enough argument for curr\n\n")
 	}
 	url := "http://api.fixer.io/latest?base=" + SafeParam(args[1]) + "&symbols=" + SafeParam(args[2])
-	var data S_fixer_io
+	var data SFixerIo
 	APICall(url, &data)
 
 	fmt.Println("Conversion :", data.Base, " -> ", args[2])
@@ -33,4 +35,3 @@ func Currency(args []string) {
 		fmt.Printf("Value      : %v -> %.2f\n", convs, convv)
 	}
 }
-

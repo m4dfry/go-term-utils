@@ -1,17 +1,18 @@
 package utils
 
 import (
-  "fmt"
-  "log"
+	"fmt"
+	"log"
 )
 
-type S_open_generic struct {
+// SOpenGeneric struct
+type SOpenGeneric struct {
 	Message string `json:"message"`
 }
 
-// http://api.open-notify.org/iss-now.json
-type S_open_issnow struct {
-	S_open_generic
+// SOpenIssnow source : http://api.open-notify.org/iss-now.json
+type SOpenIssnow struct {
+	SOpenGeneric
 	Timestamp   int `json:"timestamp"`
 	IssPosition struct {
 		Latitude  string `json:"latitude"`
@@ -19,9 +20,9 @@ type S_open_issnow struct {
 	} `json:"iss_position"`
 }
 
-//http://api.open-notify.org/astros.json
-type S_open_astros struct {
-	S_open_generic
+// SOpenAstros source : http://api.open-notify.org/astros.json
+type SOpenAstros struct {
+	SOpenGeneric
 	Number int `json:"number"`
 	People []struct {
 		Name  string `json:"name"`
@@ -29,35 +30,38 @@ type S_open_astros struct {
 	} `json:"people"`
 }
 
-//http://maps.google.com/maps/api/geocode/json?latlng=4.1108,34.5748
-type S_GoogleGEO struct {
+// SGoogleGEO source : http://maps.google.com/maps/api/geocode/json?latlng=4.1108,34.5748
+type SGoogleGEO struct {
 	Results []struct {
 		FormattedAddress string `json:"formatted_address"`
 	} `json:"results"`
 	Status string `json:"status"`
 }
 
-func (s *S_open_generic) CheckMessage() {
+// CheckMessage func
+func (s *SOpenGeneric) CheckMessage() {
 	if s.Message != "success" {
 		log.Fatal("ERROR : Fail to load information")
 		return
 	}
 }
 
-func (s *S_open_issnow) GetLatLong() string {
+// GetLatLong func
+func (s *SOpenIssnow) GetLatLong() string {
 	return s.IssPosition.Latitude + "," + s.IssPosition.Longitude
 }
 
+// Space main function
 func Space() {
-	var issnow S_open_issnow
+	var issnow SOpenIssnow
 	APICall("http://api.open-notify.org/iss-now.json", &issnow)
 	issnow.CheckMessage()
 
-	var geoloc S_GoogleGEO
-	APICall("http://maps.google.com/maps/api/geocode/json?latlng=" + SafeParam(issnow.GetLatLong()), &geoloc)
+	var geoloc SGoogleGEO
+	APICall("http://maps.google.com/maps/api/geocode/json?latlng="+SafeParam(issnow.GetLatLong()), &geoloc)
 	//fmt.Printf("--- Google Response\n%+v\n--- END", geoloc)
 
-	var astros S_open_astros
+	var astros SOpenAstros
 	APICall("http://api.open-notify.org/astros.json", &astros)
 	astros.CheckMessage()
 
@@ -74,4 +78,3 @@ func Space() {
 		fmt.Printf(" - %s on %s\n", astro.Name, astro.Craft)
 	}
 }
-

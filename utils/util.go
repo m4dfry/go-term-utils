@@ -2,22 +2,25 @@ package utils
 
 import (
 	"encoding/json"
+	"golang.org/x/net/proxy"
 	"log"
-  "golang.org/x/net/proxy"
 	"net/http"
 	"net/url"
 )
 
+// SafeParam function
 func SafeParam(s string) string {
 	return url.QueryEscape(s)
 }
 
+// APICall function
 func APICall(apiAddress string, data interface{}) {
-  GenericAPICall(apiAddress, data, nil)
+	GenericAPICall(apiAddress, data, nil)
 }
 
+// TorAPICall function
 func TorAPICall(apiAddress string, data interface{}) {
-// Create a transport that uses Tor Browser's SocksPort.  If
+	// Create a transport that uses Tor Browser's SocksPort.  If
 	// talking to a system tor, this may be an AF_UNIX socket, or
 	// 127.0.0.1:9050 instead.
 	tbProxyURL, err := url.Parse("socks5://127.0.0.1:9050")
@@ -41,6 +44,7 @@ func TorAPICall(apiAddress string, data interface{}) {
 	GenericAPICall(apiAddress, data, tbTransport)
 }
 
+// GenericAPICall function
 func GenericAPICall(address string, data interface{}, tbTransport *http.Transport) {
 
 	log.Println("urlxs:", address)
@@ -55,10 +59,10 @@ func GenericAPICall(address string, data interface{}, tbTransport *http.Transpor
 	// redirect policy, and other settings,
 	// create a Client
 	// A Client is an HTTP client
-  client := &http.Client{}
-  if(tbTransport != nil) {
-    client = &http.Client{Transport: tbTransport}
-  }
+	client := &http.Client{}
+	if tbTransport != nil {
+		client = &http.Client{Transport: tbTransport}
+	}
 
 	// Send the request via a client
 	// Do sends an HTTP request and
@@ -79,4 +83,3 @@ func GenericAPICall(address string, data interface{}, tbTransport *http.Transpor
 		log.Println(err)
 	}
 }
-
