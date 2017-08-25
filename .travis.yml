@@ -1,0 +1,5 @@
+language: go
+go_import_path: github.com/m4dfry/go-term-utils/utils
+
+go:
+    - 1.8.3

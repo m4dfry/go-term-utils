@@ -1,7 +1,7 @@
 ![upload.wikimedia.org](https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Golang.png/240px-Golang.png)
 
 # Go Terminal Utils 
-
+[![Build Status](https://img.shields.io/travis/m4dfry/go-term-utils.svg?style=flat)](https://travis-ci.org/m4dfry/go-term-utils)
 [![Go Report Card](https://goreportcard.com/badge/github.com/m4dfry/go-term-utils)](https://goreportcard.com/report/github.com/m4dfry/go-term-utils)
 [![License](http://img.shields.io/badge/license-MIT-red.svg?style=flat)](https://github.com/m4dfry/go-term-utils/blob/master/LICENSE)
 
@@ -89,7 +89,9 @@ There are 6 people in space now:
 
 ## Note & TODOs
 Please, let me know if I've made some mistake somewhere.
+
 **TODO**
+
 * finish the ouput of tor command
 * implement weather
 
