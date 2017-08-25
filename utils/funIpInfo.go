@@ -30,7 +30,7 @@ func IPInfo(args []string) {
 	}
 
 	var info SIPAPICom
-	APICall("http://ip-api.com/json/"+argIp, &info)
+	APICall("http://ip-api.com/json/"+argIP, &info)
 
 	fmt.Println("IP       :", info.Query)
 	fmt.Println("ISP      :", info.ISP)

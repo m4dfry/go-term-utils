@@ -37,7 +37,7 @@ func main() {
 	case "crycurr":
 		utils.CryptoCurrency(flag.Args())
 	case "ip":
-		utils.IpInfo(flag.Args())
+		utils.IPInfo(flag.Args())
 	case "space":
 		utils.Space()
 	case "tor":
